@@ -21,8 +21,13 @@ class SabyContactsPageLocators:
     )
 
     REGIONS_LIST = (
+        By.CSS_SELECTOR,
+        'li.sbis_ru-Region-Panel__item'
+    )
+
+    REGIONS_TAB_CLOSE_BUTTON = (
         By.CLASS_NAME,
-        'sbis_ru-Region-Panel__list-l'
+        'sbis_ru-Region-Panel__header-close'
     )
 
 
@@ -82,20 +87,29 @@ class SabyContactsPage(BasePage):
             return False
 
     def set_region(self, region_name):
-        element = WebDriverWait(self.driver, 10).until(
+        selector = WebDriverWait(self.driver, 10).until(
             EC.element_to_be_clickable(SabyContactsPageLocators.REGION_SELECTOR),
             f"Couldn't find element by locator {SabyContactsPageLocators.REGION_SELECTOR}",
         )
 
-        #element.click()
-        self.driver.execute_script("arguments[0].click();", element)
+        selector.click()
+
+        #self.driver.execute_script("arguments[0].click();", selector)
 
         regions_list = WebDriverWait(self.driver, 20).until(
-            EC.visibility_of_element_located(SabyContactsPageLocators.REGIONS_LIST),
+            EC.visibility_of_all_elements_located(SabyContactsPageLocators.REGIONS_LIST),
             f"Couldn't find element by locator {SabyContactsPageLocators.REGIONS_LIST}",
         )
 
-        print(regions_list)
+        for region in regions_list:
+            if region_name in region.text:
+                region.click()
+                break
+
+        WebDriverWait(self.driver, 20).until(
+            EC.element_to_be_clickable(SabyContactsPageLocators.REGIONS_TAB_CLOSE_BUTTON),
+            f"Couldn't find element by locator {SabyContactsPageLocators.REGIONS_TAB_CLOSE_BUTTON}",
+        ).click()
 
 
 
