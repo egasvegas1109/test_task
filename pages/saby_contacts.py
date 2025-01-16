@@ -7,7 +7,7 @@ import logging
 class SabyContactsPageLocators:
     TENSOR_BANNER = (
         By.XPATH,
-        '//a[@href="https://tensor.ru/"][@class="sbisru-Contacts__logo-tensor mb-12"]',
+        '//a[@href="https://tensor.ru/" and @class="sbisru-Contacts__logo-tensor mb-12"]',
     )
 
     REGION_SELECTOR = (
@@ -16,8 +16,8 @@ class SabyContactsPageLocators:
     )
 
     PARTNERS_LIST = (
-        By.XPATH,
-        '//div[@name="itemsContainer" and @data-qa="items-container"]//div[@data-qa="item"]'
+        By.CLASS_NAME,
+        'sbisru-Contacts-List__col-1'
     )
 
     REGIONS_LIST = (
@@ -25,17 +25,16 @@ class SabyContactsPageLocators:
         'li.sbis_ru-Region-Panel__item'
     )
 
-    REGIONS_TAB_CLOSE_BUTTON = (
-        By.CLASS_NAME,
-        'sbis_ru-Region-Panel__header-close'
-    )
-
 
 # noinspection SpellCheckingInspection
 class SabyContactsPage(BasePage):
-    PAGE_URL = "https://sbis.ru/contacts/"
+    PAGE_URL = "https://sbis.ru/contacts"
 
     def click_on_tensor_banner(self):
+        """
+        Кликает на баннер "Тензор" и переключает драйвер на новую вкладку.
+        :return:
+        """
         initial_handles = self.driver.window_handles
         banner = WebDriverWait(self.driver, 5).until(
             EC.element_to_be_clickable(SabyContactsPageLocators.TENSOR_BANNER),
@@ -62,6 +61,11 @@ class SabyContactsPage(BasePage):
         )
 
     def check_region_selector_exist(self, region_name):
+        """
+        Проверяет существует ли селектор выбора указанного региона.
+        :param region_name: название региона
+        :return:
+        """
         try:
             selector = WebDriverWait(self.driver, 10).until(
                 EC.visibility_of_element_located(SabyContactsPageLocators.REGION_SELECTOR),
@@ -73,46 +77,66 @@ class SabyContactsPage(BasePage):
                 return False
         except Exception as e:
             logging.error(f"An error occurred: {str(e)}")
-            return  False
+            return False
 
     def check_partners_list_exist(self):
+        """
+        Проверяет существует ли список партнёров.
+        :return:
+        """
         try:
             WebDriverWait(self.driver, 10).until(
                 EC.visibility_of_element_located(SabyContactsPageLocators.PARTNERS_LIST),
                 f"Couldn't find element by locator {SabyContactsPageLocators.PARTNERS_LIST}",
             )
+
             return True
         except Exception as e:
             logging.error(f"An error occurred: {str(e)}")
             return False
 
-    def set_region(self, region_name):
+    def get_partners_list(self):
+        """
+        Получает список партнёров.
+        """
+        try:
+            partners = WebDriverWait(self.driver, 10).until(
+                EC.presence_of_all_elements_located(SabyContactsPageLocators.PARTNERS_LIST),
+                f"Couldn't find element by locator {SabyContactsPageLocators.PARTNERS_LIST}",
+            )
+            return [partner.text for partner in partners]
+        except Exception as e:
+            logging.error(f"An error occurred: {str(e)}")
+            return []
+
+    def set_region(self, region_name: str):
+        """
+        Изменяет регион на указанный.
+        :param region_name: название региона
+        :return:
+        """
         selector = WebDriverWait(self.driver, 10).until(
             EC.element_to_be_clickable(SabyContactsPageLocators.REGION_SELECTOR),
             f"Couldn't find element by locator {SabyContactsPageLocators.REGION_SELECTOR}",
         )
 
-        selector.click()
+        current_region = selector.text
 
-        #self.driver.execute_script("arguments[0].click();", selector)
+        self.driver.execute_script('arguments[0].click()', selector)
 
         regions_list = WebDriverWait(self.driver, 20).until(
             EC.visibility_of_all_elements_located(SabyContactsPageLocators.REGIONS_LIST),
             f"Couldn't find element by locator {SabyContactsPageLocators.REGIONS_LIST}",
         )
 
+        #Перебираем все li для переключения региона
         for region in regions_list:
             if region_name in region.text:
                 region.click()
                 break
 
-        WebDriverWait(self.driver, 20).until(
-            EC.element_to_be_clickable(SabyContactsPageLocators.REGIONS_TAB_CLOSE_BUTTON),
-            f"Couldn't find element by locator {SabyContactsPageLocators.REGIONS_TAB_CLOSE_BUTTON}",
-        ).click()
-
-
-
-
-
-
+        #Дожидаемся изменения региона
+        WebDriverWait(self.driver, 10).until(
+            lambda driver: selector.text != current_region,
+            "Region did not update after selection",
+        )

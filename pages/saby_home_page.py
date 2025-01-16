@@ -21,12 +21,20 @@ class SabyHomePage(BasePage):
     PAGE_URL = "https://sbis.ru"
 
     def click_on_contacts_header(self):
+        """
+        Кликает на кнопку "Контакты" в шапке.
+        :return:
+        """
         WebDriverWait(self.driver, 10).until(
             EC.element_to_be_clickable(SabyHomePageLocators.BUTTON_CONTACTS_HEADER),
             f"Couldn't find element by locator {SabyHomePageLocators.BUTTON_CONTACTS_HEADER}",
         ).click()
 
     def click_on_contacts_button(self):
+        """
+        Переходит на страницу контактов.
+        :return:
+        """
         WebDriverWait(self.driver, 15).until(
             EC.element_to_be_clickable(SabyHomePageLocators.BUTTON_CONTACTS),
             f"Couldn't find element by locator {SabyHomePageLocators.BUTTON_CONTACTS}",

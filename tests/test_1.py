@@ -9,7 +9,7 @@ from conftest import create_web_driver
 def test_banner_navigation_and_elements(create_web_driver):
     #Создание экземпляров классов,
     #можно вынести в отдельную фикстуру, но тогда будут создаваться и объекты,
-    #которые не нужны в данном тесте
+    #которые не нужны в данном тесте например
     saby_home_page = SabyHomePage(create_web_driver)
     saby_contacts = SabyContactsPage(create_web_driver)
     tensor_home_page = TensorHomePage(create_web_driver)
@@ -26,6 +26,7 @@ def test_banner_navigation_and_elements(create_web_driver):
 
     assert tensor_about_page.are_images_same_size_from_work_section() == True
 
+# noinspection SpellCheckingInspection
 def test_region_detection_and_change(create_web_driver):
     saby_home_page = SabyHomePage(create_web_driver)
     saby_contacts = SabyContactsPage(create_web_driver)
@@ -36,6 +37,17 @@ def test_region_detection_and_change(create_web_driver):
 
     assert saby_contacts.check_region_selector_exist('Ярославская') == True
     assert saby_contacts.check_partners_list_exist() == True
+
+    yar_partners_list = saby_contacts.get_partners_list()
+
     saby_contacts.set_region('Камчатский край')
     assert saby_contacts.check_region_selector_exist('Камчатский край') == True
+
+    kamch_partners_list = saby_contacts.get_partners_list()
+    assert yar_partners_list != kamch_partners_list
+
+    current_title = saby_contacts.get_current_title()
+    current_url = saby_contacts.get_current_url()
+    assert 'Камчатский край' in current_title
+    assert '41-kamchatskij-kraj' in current_url
 

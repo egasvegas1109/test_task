@@ -12,3 +12,6 @@ class BasePage:
 
     def get_current_url(self):
         return self.driver.current_url
+
+    def get_current_title(self):
+        return self.driver.title

@@ -9,8 +9,15 @@ class TensorAboutPageLocators:
         "img.tensor_ru-About__block3-image.new_lazy",
     )
 
+# noinspection SpellCheckingInspection
 class TensorAboutPage(BasePage):
+    PAGE_URL = "https://tensor.ru/about"
+
     def are_images_same_size_from_work_section(self):
+        """
+        Проверяет одинаковый ли размер у изображений в разделе "Работаем"
+        :return:
+        """
         # Находим все изображения
         images = WebDriverWait(self.driver, 10).until(
             EC.presence_of_all_elements_located(TensorAboutPageLocators.IMG_FROM_WORK_SECTION),
