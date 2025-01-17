@@ -1,4 +1,4 @@
-from pages.saby_download import SabyDownloadPage
+from pages.saby_download_page import SabyDownloadPage
 from pages.saby_home_page import SabyHomePage
 from conftest import create_web_driver
 

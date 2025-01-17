@@ -1,4 +1,4 @@
-from components.saby_footer import SabyFooter
+from components.saby_footer_component import SabyFooter
 from components.saby_header_component import SabyHeader
 from pages.base_page import BasePage
 

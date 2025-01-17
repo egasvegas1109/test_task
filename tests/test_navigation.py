@@ -1,7 +1,7 @@
 from pages.saby_home_page import SabyHomePage
 from pages.tensor_about_page import TensorAboutPage
 from pages.tensor_home_page import TensorHomePage
-from pages.saby_contacts import SabyContactsPage
+from pages.saby_contacts_page import SabyContactsPage
 from conftest import create_web_driver
 
 
