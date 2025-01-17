@@ -84,7 +84,7 @@ class SabyDownloadPage(BasePage):
         file_path = os.path.join(download_dir, file_name)
 
         start_time = time.time()
-        timeout = 5
+        timeout = 30
 
         while True:
             if os.path.exists(file_path):

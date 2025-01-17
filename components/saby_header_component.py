@@ -24,7 +24,7 @@ class SabyHeader(BasePage):
         Кликает на указанную кнопку в шапке сайта.
         :param header_button: название кнопки
         """
-        header_buttons = WebDriverWait(self.driver, 10).until(
+        header_buttons = WebDriverWait(self.driver, 20).until(
             EC.visibility_of_all_elements_located(SabyHeaderLocators.BUTTONS_HEADER),
             f"Couldn't find element by locator {SabyHeaderLocators.BUTTONS_HEADER}",
         )
