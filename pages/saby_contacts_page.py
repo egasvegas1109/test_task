@@ -46,13 +46,6 @@ class SabyContactsPage(BasePage):
                 self.driver.switch_to.window(handle)
                 break
 
-        # Переход на новую страницу осуществляется по click() без driver.get()
-        # поэтому используем явное ожидание для полной загрузки
-        WebDriverWait(self.driver, 20).until(
-            lambda driver: driver.execute_script("return document.readyState")
-            == "complete"
-        )
-
     def check_region_selector_exist(self, region_name: str):
         """
         Проверяет существует ли селектор выбора указанного региона.

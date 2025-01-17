@@ -24,9 +24,3 @@ class SabyFooter(BasePage):
             if footer_button in button.text:
                 button.click()
                 break
-
-        WebDriverWait(self.driver, 20).until(
-            lambda driver: driver.execute_script("return document.readyState")
-            == "complete",
-            "Page did not load completely",
-        )

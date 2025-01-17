@@ -42,10 +42,3 @@ class SabyHeader(BasePage):
             EC.element_to_be_clickable(SabyHeaderLocators.BUTTON_CONTACTS),
             f"Couldn't find element by locator {SabyHeaderLocators.BUTTON_CONTACTS}",
         ).click()
-
-        # Ожидаем загрузки новой страницы, так как переходим по click, а не driver.get()
-        WebDriverWait(self.driver, 20).until(
-            lambda driver: driver.execute_script("return document.readyState")
-            == "complete",
-            "Page did not load completely",
-        )

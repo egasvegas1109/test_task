@@ -7,8 +7,8 @@ import logging
 
 class TensorHomePageLocators:
     BLOCK_POWER_IN_PEOPLE = (
-        By.CSS_SELECTOR,
-        "div.tensor_ru-Index__block4-content.tensor_ru-Index__card",
+        By.XPATH,
+        '//div[@class="tensor_ru-Index__block4-content tensor_ru-Index__card" and .//p[text() = "Сила в людях"]]',
     )
 
     BUTTON_MORE_DETAILED = (
@@ -26,16 +26,13 @@ class TensorHomePage(BasePage):
         Проверяет существует ли блок "Сила в людях".
         """
         try:
-            block = WebDriverWait(self.driver, 20).until(
+            WebDriverWait(self.driver, 20).until(
                 EC.visibility_of_element_located(
                     TensorHomePageLocators.BLOCK_POWER_IN_PEOPLE
                 ),
                 f"Couldn't find element by locator {TensorHomePageLocators.BLOCK_POWER_IN_PEOPLE}",
             )
-            if "Сила в людях" in block.text:
-                return True
-            else:
-                return False
+            return True
         except Exception as e:
             logging.error(f"An error occurred: {str(e)}")
             return False
@@ -50,9 +47,3 @@ class TensorHomePage(BasePage):
         )
         # Иногда возникает проблема того, что клик перехвачен, поэтому используем JS
         self.driver.execute_script("arguments[0].click();", button)
-
-        # Явное ожидание для загрузки страницы
-        WebDriverWait(self.driver, 20).until(
-            lambda driver: driver.execute_script("return document.readyState")
-            == "complete"
-        )
