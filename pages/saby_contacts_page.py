@@ -27,8 +27,7 @@ class SabyContactsPage(BasePage):
 
     def click_on_tensor_banner(self):
         """
-        Кликает на баннер "Тензор" и переключает драйвер на новую вкладку.
-        :return:
+        Кликает на баннер "Тензор" и переключает веб-драйвер на новую вкладку.
         """
         initial_handles = self.driver.window_handles
         banner = WebDriverWait(self.driver, 5).until(
@@ -54,11 +53,10 @@ class SabyContactsPage(BasePage):
             == "complete"
         )
 
-    def check_region_selector_exist(self, region_name):
+    def check_region_selector_exist(self, region_name: str):
         """
         Проверяет существует ли селектор выбора указанного региона.
         :param region_name: название региона
-        :return:
         """
         try:
             selector = WebDriverWait(self.driver, 10).until(
@@ -95,7 +93,6 @@ class SabyContactsPage(BasePage):
         """
         Изменяет регион на указанный.
         :param region_name: название региона
-        :return:
         """
         selector = WebDriverWait(self.driver, 10).until(
             EC.element_to_be_clickable(SabyContactsPageLocators.REGION_SELECTOR),

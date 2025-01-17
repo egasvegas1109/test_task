@@ -10,4 +10,4 @@ class SabyHomePage(BasePage):
     def __init__(self, driver):
         super().__init__(driver)
         self.header = SabyHeader(driver)  # Используем композицию (PageComponent)
-        self.footer = SabyFooter(driver)  # Используем композицию (PageComponent)
+        self.footer = SabyFooter(driver)

@@ -23,8 +23,7 @@ class TensorHomePage(BasePage):
 
     def check_block_power_in_people_exist(self):
         """
-        Проверяет существует ли блок "Сила в людях"
-        :return:
+        Проверяет существует ли блок "Сила в людях".
         """
         try:
             block = WebDriverWait(self.driver, 20).until(
@@ -43,8 +42,7 @@ class TensorHomePage(BasePage):
 
     def power_in_people_click_button(self):
         """
-        Кликает на кнопку "Подробнее" в блоке "Сила в людях"
-        :return:
+        Кликает на кнопку "Подробнее" в блоке "Сила в людях".
         """
         button = WebDriverWait(self.driver, 5).until(
             EC.element_to_be_clickable(TensorHomePageLocators.BUTTON_MORE_DETAILED),

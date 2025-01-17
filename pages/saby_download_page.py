@@ -1,4 +1,6 @@
 import re
+import os
+import time
 from pages.base_page import BasePage
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
@@ -22,11 +24,15 @@ class SabyDownloadPageLocators:
     )
 
 
-# noinspection SpellCheckingInspection
+# noinspection SpellCheckingInspection,PyTypeChecker
 class SabyDownloadPage(BasePage):
     PAGE_URL = "https://saby.ru/download"
 
-    def set_operating_system(self, os_name):
+    def set_operating_system(self, os_name: str):
+        """
+        Выбирает указанную операционную систему.
+        :param os_name: название ОС
+        """
         header_buttons = WebDriverWait(self.driver, 10).until(
             EC.visibility_of_all_elements_located(
                 SabyDownloadPageLocators.OPERATION_SYSTEM_BUTTONS
@@ -39,7 +45,11 @@ class SabyDownloadPage(BasePage):
                 self.driver.execute_script("arguments[0].click();", button)
                 return
 
-    def set_product_download(self, product_name):
+    def set_product_download(self, product_name: str):
+        """
+        Выбирает указанный продукт.
+        :param product_name: название продукта
+        """
         product_buttons = WebDriverWait(self.driver, 10).until(
             EC.visibility_of_all_elements_located(
                 SabyDownloadPageLocators.PRODUCT_BUTTONS
@@ -53,6 +63,10 @@ class SabyDownloadPage(BasePage):
                 return
 
     def download_product_web_version(self):
+        """
+        Скачивает веб-установщик для Saby Plugin Windows, ожидает завершения загрузки,
+        и проверяет, что размер скачанного файла соответствует ожидаемому.
+        """
         url_download = WebDriverWait(self.driver, 5).until(
             EC.visibility_of_element_located(
                 SabyDownloadPageLocators.DOWNLOAD_WINDOWS_WEB_VERSION_URL
@@ -63,7 +77,19 @@ class SabyDownloadPage(BasePage):
 
         href_value = url_download.get_attribute("href")
 
-        file_size = re.search("\d+\.\d+", url_download.text).group()
+        expected_file_size = float(re.search("\d+\.\d+", url_download.text).group())
         file_name = re.search("[a-zA-Z-]*\.(exe|msi)", href_value).group()
 
-        print(file_name, file_size)
+        download_dir = os.getcwd()
+        file_path = os.path.join(download_dir, file_name)
+
+        start_time = time.time()
+        timeout = 5
+
+        while True:
+            if os.path.exists(file_path):
+                actual_file_size = round(os.path.getsize(file_path) / 1024 / 1024, 2)
+                if expected_file_size == actual_file_size:
+                    return True
+            if time.time() - start_time > timeout:
+                return False

@@ -19,11 +19,10 @@ class SabyHeaderLocators:
 # noinspection SpellCheckingInspection
 class SabyHeader(BasePage):
 
-    def click_on_button_header(self, header_button):
+    def click_on_button_header(self, header_button: str):
         """
         Кликает на указанную кнопку в шапке сайта.
         :param header_button: название кнопки
-        :return:
         """
         header_buttons = WebDriverWait(self.driver, 10).until(
             EC.visibility_of_all_elements_located(SabyHeaderLocators.BUTTONS_HEADER),
@@ -37,8 +36,7 @@ class SabyHeader(BasePage):
 
     def click_on_contacts_button(self):
         """
-        Переходит на страницу контактов.
-        :return:
+        Переходит на страницу контактов по клику на кнопку "Ещё..." в окне "Контакты"
         """
         WebDriverWait(self.driver, 15).until(
             EC.element_to_be_clickable(SabyHeaderLocators.BUTTON_CONTACTS),

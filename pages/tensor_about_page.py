@@ -18,7 +18,6 @@ class TensorAboutPage(BasePage):
     def are_images_same_size_from_work_section(self):
         """
         Проверяет одинаковый ли размер у изображений в разделе "Работаем"
-        :return:
         """
         # Находим все изображения
         images = WebDriverWait(self.driver, 10).until(

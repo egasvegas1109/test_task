@@ -10,7 +10,11 @@ class SabyFooterLocators:
 
 # noinspection SpellCheckingInspection
 class SabyFooter(BasePage):
-    def click_on_button_footer(self, footer_button):
+    def click_on_button_footer(self, footer_button: str):
+        """
+        Кликает на указанную кнопку в footer.
+        :param footer_button: название кнопки
+        """
         footer_buttons = WebDriverWait(self.driver, 10).until(
             EC.visibility_of_all_elements_located(SabyFooterLocators.BUTTONS_FOOTER),
             f"Couldn't find element by locator {SabyFooterLocators.BUTTONS_FOOTER}",
