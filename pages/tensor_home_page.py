@@ -4,15 +4,16 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 import logging
 
+
 class TensorHomePageLocators:
     BLOCK_POWER_IN_PEOPLE = (
-        By.XPATH,
-        '//div[@class="tensor_ru-Index__block4-content tensor_ru-Index__card"]',
+        By.CSS_SELECTOR,
+        "div.tensor_ru-Index__block4-content.tensor_ru-Index__card",
     )
 
     BUTTON_MORE_DETAILED = (
-        By.XPATH,
-        '//a[@href="/about" and @class="tensor_ru-link tensor_ru-Index__link"]',
+        By.CSS_SELECTOR,
+        'a[href="/about"].tensor_ru-link.tensor_ru-Index__link',
     )
 
 
@@ -27,8 +28,10 @@ class TensorHomePage(BasePage):
         """
         try:
             block = WebDriverWait(self.driver, 20).until(
-            EC.visibility_of_element_located(TensorHomePageLocators.BLOCK_POWER_IN_PEOPLE),
-            f"Couldn't find element by locator {TensorHomePageLocators.BLOCK_POWER_IN_PEOPLE}",
+                EC.visibility_of_element_located(
+                    TensorHomePageLocators.BLOCK_POWER_IN_PEOPLE
+                ),
+                f"Couldn't find element by locator {TensorHomePageLocators.BLOCK_POWER_IN_PEOPLE}",
             )
             if "Сила в людях" in block.text:
                 return True
@@ -50,9 +53,8 @@ class TensorHomePage(BasePage):
         # Иногда возникает проблема того, что клик перехвачен, поэтому используем JS
         self.driver.execute_script("arguments[0].click();", button)
 
-        #Явное ожидание для загрузки страницы
+        # Явное ожидание для загрузки страницы
         WebDriverWait(self.driver, 20).until(
-            lambda driver: driver.execute_script('return document.readyState') == 'complete'
+            lambda driver: driver.execute_script("return document.readyState")
+            == "complete"
         )
-
-
