@@ -42,9 +42,11 @@ class TensorAboutPage(BasePage):
                 f"Image {image.get_attribute('src')} did not load",
             )
 
+        # Получаем ширину и высоту первой картинки
         first_image_width = images[0].get_attribute("width")
         first_image_height = images[0].get_attribute("height")
 
+        # Сравниваем размеры картинок с первой
         for image in images[1:]:
             image_width = image.get_attribute("width")
             image_height = image.get_attribute("height")

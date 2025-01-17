@@ -75,11 +75,16 @@ class SabyDownloadPage(BasePage):
         )
         url_download.click()
 
+        # Получаем ссылку на скачивание
         href_value = url_download.get_attribute("href")
 
+        # Получаем ожидаемый размер файла по данным с сайта
         expected_file_size = float(re.search("\d+\.\d+", url_download.text).group())
+
+        # Получаем название скачиваемого файла из ссылки
         file_name = re.search("[a-zA-Z-]*\.(exe|msi)", href_value).group()
 
+        # Получаем текущую рабочую директорию и добавляем путь до файла
         download_dir = os.getcwd()
         file_path = os.path.join(download_dir, file_name)
 
@@ -91,5 +96,7 @@ class SabyDownloadPage(BasePage):
                 actual_file_size = round(os.path.getsize(file_path) / 1024 / 1024, 2)
                 if expected_file_size == actual_file_size:
                     return True
+
+            # Для исключения возможности бесконечного цикла
             if time.time() - start_time > timeout:
                 return False
