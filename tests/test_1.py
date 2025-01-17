@@ -1,6 +1,6 @@
+from pages.saby_home_page import SabyHomePage
 from pages.tensor_about_page import TensorAboutPage
 from pages.tensor_home_page import TensorHomePage
-from pages.saby_home_page import SabyHomePage
 from pages.saby_contacts import SabyContactsPage
 from conftest import create_web_driver
 
@@ -16,8 +16,8 @@ def test_banner_navigation_and_elements(create_web_driver):
     tensor_about_page = TensorAboutPage(create_web_driver)
 
     saby_home_page.go_to_site()
-    saby_home_page.click_on_contacts_header()
-    saby_home_page.click_on_contacts_button()
+    saby_home_page.header.click_on_contacts_header()
+    saby_home_page.header.click_on_contacts_button()
     saby_contacts.click_on_tensor_banner()
 
     assert tensor_home_page.check_block_power_in_people_exist() == True
@@ -32,8 +32,8 @@ def test_region_detection_and_change(create_web_driver):
     saby_contacts = SabyContactsPage(create_web_driver)
 
     saby_home_page.go_to_site()
-    saby_home_page.click_on_contacts_header()
-    saby_home_page.click_on_contacts_button()
+    saby_home_page.header.click_on_contacts_header()
+    saby_home_page.header.click_on_contacts_button()
 
     assert saby_contacts.check_region_selector_exist('Ярославская') == True
     yar_partners_list = saby_contacts.get_partners_list()

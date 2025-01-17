@@ -24,8 +24,6 @@ class TensorAboutPage(BasePage):
             f"Couldn't find elements by locator {TensorAboutPageLocators.IMG_FROM_WORK_SECTION}",
         )
 
-        #НЕ ВСЕГДА ПРОКРУЧИВАЕТ НАДО КАК-НИБУДЬ УБЕДИТЬСЯ
-        #ПОПРОБОВАТЬ ВЫЗЫВАТЬ ЛУЧШЕ СОБЫТИЕ load самому
         # Прокрутка до них, чтобы вызвалось событие load
         self.driver.execute_script("arguments[0].scrollIntoView({block: 'center'});", images[0])
 
