@@ -36,9 +36,8 @@ def test_region_detection_and_change(create_web_driver):
     saby_home_page.click_on_contacts_button()
 
     assert saby_contacts.check_region_selector_exist('Ярославская') == True
-    assert saby_contacts.check_partners_list_exist() == True
-
     yar_partners_list = saby_contacts.get_partners_list()
+    assert yar_partners_list
 
     saby_contacts.set_region('Камчатский край')
     assert saby_contacts.check_region_selector_exist('Камчатский край') == True

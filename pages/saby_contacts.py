@@ -79,22 +79,6 @@ class SabyContactsPage(BasePage):
             logging.error(f"An error occurred: {str(e)}")
             return False
 
-    def check_partners_list_exist(self):
-        """
-        Проверяет существует ли список партнёров.
-        :return:
-        """
-        try:
-            WebDriverWait(self.driver, 10).until(
-                EC.visibility_of_element_located(SabyContactsPageLocators.PARTNERS_LIST),
-                f"Couldn't find element by locator {SabyContactsPageLocators.PARTNERS_LIST}",
-            )
-
-            return True
-        except Exception as e:
-            logging.error(f"An error occurred: {str(e)}")
-            return False
-
     def get_partners_list(self):
         """
         Получает список партнёров.
